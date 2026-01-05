@@ -38,7 +38,7 @@ void displayInit() {
 
 // Drawing Pong Arena
 void drawArena() {
-    display.clearDisplay();
+    // display.clearDisplay();
 
     // Top and Bottom borders
     display.drawFastHLine(0, 0, SCREEN_WIDTH, SSD1306_WHITE);
@@ -57,6 +57,7 @@ void drawArena() {
     // Right Paddle
     display.fillRect(SCREEN_WIDTH - 10, rightPaddleY, PADDLE_WIDTH, PADDLE_HEIGHT, SSD1306_WHITE);
 
-    display.display();
+    // display.display();
 }
+
 #endif
