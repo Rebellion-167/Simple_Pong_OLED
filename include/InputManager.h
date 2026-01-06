@@ -12,6 +12,10 @@
 // Paddle movement speed
 #define PADDLE_SPEED  2
 
+// Fixed X positions
+const int leftPaddleX = 4;
+const int rightPaddleX = SCREEN_WIDTH - 5 - PADDLE_WIDTH;
+
 // Initializing button pins
 void inputInit() {
     pinMode(BTN_UP, INPUT_PULLUP);
