@@ -3,81 +3,51 @@
 
 #include <Arduino.h>
 #include "DisplayManager.h"
-#include "InputManager.h"
-
-// Screen boundaries
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
 
 // Ball properties
-int ballX = SCREEN_WIDTH / 2;
-int ballY = SCREEN_HEIGHT / 2;
-int ballRadius = 2;
+#define BALL_RADIUS 2
 
-// Ball velocities
-int ballVelX = 1;
-int ballVelY = 1;
+// Ball position and velocity
+int ballX;
+int ballY;
+int ballVelX;
+int ballVelY;
 
-// Game State
+// Game state
 bool gameOver = false;
 
-// Initializing ball and game state
+// Initialize ball at center
 void initBall() {
     ballX = SCREEN_WIDTH / 2;
     ballY = SCREEN_HEIGHT / 2;
-    ballVelX = 1;
+    ballVelX = 2;
     ballVelY = 1;
     gameOver = false;
 }
 
-// Updating ball position and detecting game over
+// Updating ball position and handle collisions
 void updateBall() {
-    if (gameOver) return;
+    if(gameOver) return;
 
     ballX += ballVelX;
     ballY += ballVelY;
 
-    // Bouncing from top and bottom walls
-    if(ballY - ballRadius <= 0 || ballY + ballRadius >= SCREEN_HEIGHT - 1)
+    // Top and bottom wall collision
+    if(ballY <= BALL_RADIUS || ballY >= SCREEN_HEIGHT - BALL_RADIUS) {
         ballVelY = -ballVelY;
-
-    // Left paddle collision
-    if (ballVelX < 0 && 
-        ballX - ballRadius <= leftPaddleX + PADDLE_WIDTH &&
-        ballY >= leftPaddleY &&
-        ballY <= leftPaddleY + PADDLE_HEIGHT) {
-            
-            ballVelX = -ballVelX;
-
-            int paddleCenter = leftPaddleY + PADDLE_HEIGHT / 2;
-            ballVelY = (ballY - paddleCenter) / 4;
-
-            ballX = leftPaddleX + PADDLE_WIDTH + ballRadius;
     }
 
-    // Right paddle collision
-    if (ballVelX > 0 &&
-        ballX + ballRadius >= rightPaddleX &&
-        ballY >= rightPaddleY && 
-        ballY <= rightPaddleY + PADDLE_HEIGHT) {
-            
-            ballVelX = -ballVelX;
-
-            int paddleCenter = rightPaddleY + PADDLE_HEIGHT / 2;
-            ballVelY = (ballY - paddleCenter) / 4;
-
-            ballX = rightPaddleX - ballRadius;
-    }
-
-    // Game over if ball hits vertical walls
-    if(ballX - ballRadius <= 0 || ballX + ballRadius >= SCREEN_WIDTH - 1)
+    // Left and right wall -> Game Over
+    if(ballX <= BALL_RADIUS || ballX >= SCREEN_WIDTH - BALL_RADIUS) {
         gameOver = true;
+    }
 }
 
-// Drawing the ball on the display
+// Drawing the ball as a circle
 void drawBall() {
     if(gameOver) return;
-    display.fillCircle(ballX, ballY, ballRadius, SSD1306_WHITE);
+
+    display.fillCircle(ballX, ballY, BALL_RADIUS, SSD1306_WHITE);
 }
 
 #endif
