@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "DisplayManager.h"
+#include "PaddleManager.h"
 
 // Ball properties
 #define BALL_RADIUS 2
@@ -25,7 +26,38 @@ void initBall() {
     gameOver = false;
 }
 
-// Updating ball position and handle collisions
+//Handling ball-paddle collisions
+void handlePaddleCollision() {
+    // Left paddle
+    if(ballVelX < 0) {
+        if(ballX - BALL_RADIUS <= leftPaddleX + PADDLE_WIDTH &&
+           ballX - BALL_RADIUS >= leftPaddleX && 
+           ballY >= leftPaddleY && 
+           ballY <= leftPaddleY + PADDLE_HEIGHT) {
+            ballVelX = -ballVelX;
+
+            // Changing Y velocity based on hit position
+            int paddleCenter = leftPaddleY + PADDLE_HEIGHT / 2;
+            int hitOffset = ballY - paddleCenter;
+            ballVelY = hitOffset / 4;
+        }
+    }
+
+    // Right Paddle
+    if(ballVelX > 0) {
+        if(ballX + BALL_RADIUS >= rightPaddleX && 
+           ballX + BALL_RADIUS <= rightPaddleX + PADDLE_WIDTH &&
+           ballY >= rightPaddleY &&
+           ballY <= rightPaddleY + PADDLE_HEIGHT) {
+            ballVelX = -ballVelX;
+
+            int paddleCenter = rightPaddleY + PADDLE_HEIGHT / 2;
+            int hitOffset = ballY - paddleCenter;
+            ballVelY = hitOffset / 4;
+        } 
+    }
+}
+// Updating ball position and handle collisions on wall
 void updateBall() {
     if(gameOver) return;
 
@@ -37,6 +69,9 @@ void updateBall() {
         ballVelY = -ballVelY;
     }
 
+    // Paddle collisions
+    handlePaddleCollision();
+    
     // Left and right wall -> Game Over
     if(ballX <= BALL_RADIUS || ballX >= SCREEN_WIDTH - BALL_RADIUS) {
         gameOver = true;

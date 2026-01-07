@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include "DisplayManager.h"
 #include "InputManager.h"
-#include "BallManager.h"
 
 // Paddle sizes
 #define PADDLE_WIDTH   3
@@ -21,6 +20,8 @@ const int rightPaddleX = SCREEN_WIDTH - 4 - PADDLE_WIDTH;
 // Paddle Y positions
 int leftPaddleY;
 int rightPaddleY;
+
+extern int ballY;
 
 // Initialize paddles
 void initPaddles() {
