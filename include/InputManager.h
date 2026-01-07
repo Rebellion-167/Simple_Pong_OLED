@@ -2,19 +2,16 @@
 #define INPUT_MANAGER_H
 
 #include <Arduino.h>
-#include "DisplayManager.h"
 
 // Button pin definitions
 #define BTN_UP     2
 #define BTN_DOWN   3
 #define BTN_START  4
 
-// Paddle movement speed
-#define PADDLE_SPEED  2
-
-// Fixed X positions
-const int leftPaddleX = 4;
-const int rightPaddleX = SCREEN_WIDTH - 5 - PADDLE_WIDTH;
+// Button state flags
+bool btnUpPressed = false;
+bool btnDownPressed = false;
+bool btnMidPressed = false;
 
 // Initializing button pins
 void inputInit() {
@@ -25,19 +22,9 @@ void inputInit() {
 
 // Handling button input and updating paddle positions
 void handleInput() {
-    // Moving paddle up
-    if(digitalRead(BTN_UP) == LOW) 
-        leftPaddleY -= PADDLE_SPEED;
-
-    // Moving paddle down
-    if(digitalRead(BTN_DOWN) == LOW)
-        leftPaddleY += PADDLE_SPEED;
-
-    // Boundary limits
-    if(leftPaddleY < 1) leftPaddleY = 1;
-
-    if(leftPaddleY > SCREEN_HEIGHT - PADDLE_HEIGHT - 1)
-        leftPaddleY = SCREEN_HEIGHT - PADDLE_HEIGHT - 1;
-
+    btnUpPressed = (digitalRead(BTN_UP) == LOW);
+    btnDownPressed = (digitalRead(BTN_DOWN) == LOW);
+    btnMidPressed = (digitalRead(BTN_START) == LOW);
 }
+
 #endif

@@ -19,10 +19,6 @@
 // Display Object
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-// Paddle position
-int leftPaddleY  = (SCREEN_HEIGHT - PADDLE_HEIGHT) / 2;
-int rightPaddleY = (SCREEN_HEIGHT - PADDLE_HEIGHT) / 2;
-
 // Initializing OLED
 void displayInit() {
     Wire.begin();
@@ -38,7 +34,6 @@ void displayInit() {
 
 // Drawing Pong Arena
 void drawArena() {
-    // display.clearDisplay();
 
     // Top and Bottom borders
     display.drawFastHLine(0, 0, SCREEN_WIDTH, SSD1306_WHITE);
@@ -50,14 +45,6 @@ void drawArena() {
 
     // Centre line
     display.drawFastVLine(SCREEN_WIDTH / 2, 0, SCREEN_HEIGHT, SSD1306_WHITE);
-
-    // Left Paddle
-    display.fillRect(5, leftPaddleY, PADDLE_WIDTH, PADDLE_HEIGHT, SSD1306_WHITE);
-
-    // Right Paddle
-    display.fillRect(SCREEN_WIDTH - 10, rightPaddleY, PADDLE_WIDTH, PADDLE_HEIGHT, SSD1306_WHITE);
-
-    // display.display();
 }
 
 #endif
