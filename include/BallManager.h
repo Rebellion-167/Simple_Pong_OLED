@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "DisplayManager.h"
 #include "PaddleManager.h"
+#include "ScoreManager.h"
 
 // Ball properties
 #define BALL_RADIUS 2
@@ -14,16 +15,20 @@ int ballY;
 int ballVelX;
 int ballVelY;
 
-// Game state
-bool gameOver = false;
-
 // Initialize ball at center
 void initBall() {
     ballX = SCREEN_WIDTH / 2;
     ballY = SCREEN_HEIGHT / 2;
     ballVelX = 2;
     ballVelY = 1;
-    gameOver = false;
+}
+
+void resetBall(bool serveLeft) {
+    ballX = SCREEN_WIDTH / 2;
+    ballY = SCREEN_HEIGHT / 2;
+
+    ballVelX = serveLeft ? -2 : 2;
+    ballVelY = random(-2, 3);
 }
 
 //Handling ball-paddle collisions
@@ -59,7 +64,6 @@ void handlePaddleCollision() {
 }
 // Updating ball position and handle collisions on wall
 void updateBall() {
-    if(gameOver) return;
 
     ballX += ballVelX;
     ballY += ballVelY;
@@ -72,16 +76,21 @@ void updateBall() {
     // Paddle collisions
     handlePaddleCollision();
     
-    // Left and right wall -> Game Over
-    if(ballX <= BALL_RADIUS || ballX >= SCREEN_WIDTH - BALL_RADIUS) {
-        gameOver = true;
+    // Left wall -> Right scores
+    if(ballX <= BALL_RADIUS) {
+        rightScore++;
+        resetBall(false);
+    }
+
+    // Right wall -> Left scores
+    if(ballX >= SCREEN_WIDTH - BALL_RADIUS) {
+        leftScore++;
+        resetBall(true);
     }
 }
 
 // Drawing the ball as a circle
 void drawBall() {
-    if(gameOver) return;
-
     display.fillCircle(ballX, ballY, BALL_RADIUS, SSD1306_WHITE);
 }
 

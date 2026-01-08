@@ -3,12 +3,14 @@
 #include "InputManager.h"
 #include "BallManager.h"
 #include "PaddleManager.h"
+#include "ScoreManager.h"
 
 void setup() {
   displayInit();
   inputInit();
   initBall();
   initPaddles();
+  resetScores();
 }
 
 void loop() {
@@ -17,6 +19,7 @@ void loop() {
   display.clearDisplay();
 
   drawArena();
+  drawScore();
 
   updateBall();
   updatePaddles();
