@@ -16,6 +16,19 @@ void setup() {
 void loop() {
   handleInput();
 
+  if(gameWon) {
+    drawWinScreen();
+
+    // Restarting on any button press
+    if(btnUpPressed || btnDownPressed) {
+      resetScores();
+      initBall();
+      initPaddles();
+    }
+    delay(200);
+    return;
+  }
+  
   display.clearDisplay();
 
   drawArena();

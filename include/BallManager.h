@@ -65,6 +65,8 @@ void handlePaddleCollision() {
 // Updating ball position and handle collisions on wall
 void updateBall() {
 
+    if(gameWon) return;
+
     ballX += ballVelX;
     ballY += ballVelY;
 
@@ -79,13 +81,15 @@ void updateBall() {
     // Left wall -> Right scores
     if(ballX <= BALL_RADIUS) {
         rightScore++;
-        resetBall(false);
+        checkWin();
+        if(!gameWon) resetBall(false);
     }
 
     // Right wall -> Left scores
     if(ballX >= SCREEN_WIDTH - BALL_RADIUS) {
         leftScore++;
-        resetBall(true);
+        checkWin();
+        if(!gameWon) resetBall(true);
     }
 }
 
