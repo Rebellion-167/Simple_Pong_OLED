@@ -4,6 +4,7 @@
 #include "BallManager.h"
 #include "PaddleManager.h"
 #include "ScoreManager.h"
+#include "StartScreen.h"
 
 void setup() {
   displayInit();
@@ -16,19 +17,34 @@ void setup() {
 void loop() {
   handleInput();
 
-  if(gameWon) {
-    drawWinScreen();
+  // Start Screen
+  if(currentState == STATE_START) {
+    drawStartScreen();
 
-    // Restarting on any button press
-    if(btnUpPressed || btnDownPressed) {
+    if(btnMidPressed) {
       resetScores();
       initBall();
       initPaddles();
+      currentState = STATE_PLAYING;
+      delay(200);
     }
-    delay(200);
     return;
   }
-  
+
+  // Win Screen
+  if(currentState == STATE_WIN) {
+    display.clearDisplay();
+    drawWinScreen();
+    display.display();
+
+    if(btnMidPressed) {
+      currentState = STATE_START;
+      delay(200);
+    }
+    return;
+  }
+
+  // Game Play
   display.clearDisplay();
 
   drawArena();
@@ -37,10 +53,14 @@ void loop() {
   updateBall();
   updatePaddles();
 
+  if(gameWon) {
+    currentState = STATE_WIN;
+    return;
+  }
+
   drawBall();
   drawPaddles();
 
   display.display();
-
   delay(20);
 }

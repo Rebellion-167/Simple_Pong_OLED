@@ -39,8 +39,6 @@ void drawScore() {
 
 // Displaying the win screen
 void drawWinScreen() {
-    display.clearDisplay();
-
     display.setTextSize(2);
     display.setTextColor(SSD1306_WHITE);
 
@@ -54,8 +52,6 @@ void drawWinScreen() {
     display.setTextSize(1);
     display.setCursor(27, 40);
     display.print("Press button");
-
-    display.display();
 }
 
 #endif
