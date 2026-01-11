@@ -5,6 +5,7 @@
 #include "PaddleManager.h"
 #include "ScoreManager.h"
 #include "StartScreen.h"
+#include "CountdownManager.h"
 
 void setup() {
   displayInit();
@@ -25,12 +26,23 @@ void loop() {
       resetScores();
       initBall();
       initPaddles();
-      currentState = STATE_PLAYING;
+      startCountdown();
+      currentState = STATE_COUNTDOWN;
       delay(200);
     }
     return;
   }
 
+  if(currentState == STATE_COUNTDOWN) {
+    updateCountdown();
+    drawCountdown();
+
+    if(countdownDone) {
+      currentState = STATE_PLAYING;
+    }
+    return;
+  }
+  
   // Win Screen
   if(currentState == STATE_WIN) {
     display.clearDisplay();

@@ -5,6 +5,7 @@
 #include "DisplayManager.h"
 #include "PaddleManager.h"
 #include "ScoreManager.h"
+#include "StartScreen.h"
 
 // Ball properties
 #define BALL_RADIUS 2
@@ -65,6 +66,7 @@ void handlePaddleCollision() {
 // Updating ball position and handle collisions on wall
 void updateBall() {
 
+    if(currentState != STATE_PLAYING) return;
     if(gameWon) return;
 
     ballX += ballVelX;

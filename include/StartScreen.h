@@ -6,6 +6,7 @@
 // Creating an enum to store the different states
 enum GameState {
     STATE_START,
+    STATE_COUNTDOWN,
     STATE_PLAYING,
     STATE_WIN
 };
