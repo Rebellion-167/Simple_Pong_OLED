@@ -20,15 +20,15 @@ int ballVelY;
 void initBall() {
     ballX = SCREEN_WIDTH / 2;
     ballY = SCREEN_HEIGHT / 2;
-    ballVelX = 2;
-    ballVelY = 1;
+    ballVelX = 3;
+    ballVelY = 1.5;
 }
 
 void resetBall(bool serveLeft) {
     ballX = SCREEN_WIDTH / 2;
     ballY = SCREEN_HEIGHT / 2;
 
-    ballVelX = serveLeft ? -2 : 2;
+    ballVelX = serveLeft ? -3 : 3;
     ballVelY = random(-2, 3);
 }
 
@@ -45,7 +45,7 @@ void handlePaddleCollision() {
             // Changing Y velocity based on hit position
             int paddleCenter = leftPaddleY + PADDLE_HEIGHT / 2;
             int hitOffset = ballY - paddleCenter;
-            ballVelY = hitOffset / 4;
+            ballVelY = hitOffset / 3.5;
         }
     }
 
@@ -59,7 +59,7 @@ void handlePaddleCollision() {
 
             int paddleCenter = rightPaddleY + PADDLE_HEIGHT / 2;
             int hitOffset = ballY - paddleCenter;
-            ballVelY = hitOffset / 4;
+            ballVelY = hitOffset / 3.5;
         } 
     }
 }
