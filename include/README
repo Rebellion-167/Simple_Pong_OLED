@@ -1,9 +1,0 @@
-
-This directory is intended for project header files.
-
-The header files created for this project are as follows:
-
-* **DisplayManager.h:** Contains code related to initializing the OLED display and drawing the area
-* **InputManager.h:** Contains code related to interpreting the button inputs
-* **PaddleManager.h:** Contains code that deals with paddle movement of both player and computer and updating the position of paddle on the screen
-* **BallManager.h:** Contains code for ball movement, handling paddle-ball collision and updating the current state of the ball on the screen 
